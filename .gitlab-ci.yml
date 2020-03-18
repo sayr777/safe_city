@@ -1,0 +1,35 @@
+image: tempik/dind-ci-image:latest
+
+variables:
+  REGISTRY_URL: hub.t1-group.ru
+  CONTAINER_NAME: rnis/safe_city
+  IMAGE_NAME_BASE: $REGISTRY_URL/$CONTAINER_NAME
+
+stages:
+  - build
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - BUILDTAG=$(TZ=":Europe/Moscow" date +%Y%m%d.%H%M)
+
+    - docker build
+        --cache-from $IMAGE_NAME_BASE:latest
+        --tag $IMAGE_NAME_BASE:$BUILDTAG
+        --tag $IMAGE_NAME_BASE:latest .
+
+    - echo "${REGISTRY_PASSWORD}" | docker login
+        --username "${REGISTRY_USER}"
+        --password-stdin
+        $REGISTRY_URL
+    - docker push $IMAGE_NAME_BASE:$BUILDTAG
+    - docker push $IMAGE_NAME_BASE:latest
+    - docker logout $REGISTRY_URL
+
+    - docker rmi $IMAGE_NAME_BASE:$BUILDTAG
+    - curl
+        --get
+        --data-urlencode "message=Новая сборка ${IMAGE_NAME_BASE}:${BUILDTAG}"
+        "http://crierbot.appspot.com/${CRIER_TOKEN}/send?"
