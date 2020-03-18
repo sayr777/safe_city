@@ -2,11 +2,12 @@ from sqllite import get_vehicles_dic
 from sqllite import get_t_by_device
 from sqllite import get_t_by_org
 import json
-from flask import Flask
 from flask import abort
-
+from flask import Flask
 app = Flask(__name__)
 
+
+# app.run()
 @app.route('/')
 def hello():
     return 'API интеграциии РНИС Нижегородской области с АПК "Безопасный город"'
@@ -36,3 +37,6 @@ def get_telematics_by_org(idOrg):
     if idOrg == '':
         abort(404)
     return get_t_by_device(idOrg)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=8000)
