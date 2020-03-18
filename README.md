@@ -13,3 +13,6 @@ python -m flask run
 
 TOKEN - список токенов
 
+
+xc
+
