@@ -39,4 +39,4 @@ def get_telematics_by_org(idOrg):
     return get_t_by_device(idOrg)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, host='0.0.0.0', port=8000)
