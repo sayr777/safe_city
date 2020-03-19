@@ -26,6 +26,7 @@ COPY . /code
 WORKDIR /code
 RUN apk update && apk add postgresql-dev gcc musl-dev
 RUN pip3 install --upgrade pip
+RUN pip3 install grpcio
 RUN pip3 install psycopg2-binary
 RUN python3 -m pip install grpcio --ignore-installed
 RUN python3 -m pip install grpcio-tools
