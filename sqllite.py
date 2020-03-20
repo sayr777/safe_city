@@ -159,3 +159,5 @@ def get_t_by_org(idOrg):
             })
 
     return tmessages
+
+# print(get_t_by_org('3dc07dfa-b43f-11e9-8848-029975b11713'))
