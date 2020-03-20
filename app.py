@@ -36,7 +36,7 @@ def get_telematics_by_device(idDev):
 def get_telematics_by_org(idOrg):
     if idOrg == '':
         abort(404)
-    return get_t_by_org(idOrg)
+    return json.dumps(get_t_by_org(idOrg))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
