@@ -1,10 +1,13 @@
+import os
 import sqlite3
 from grpc_client import get_grpc_states_from_devices
 import os
 import datetime
-
-
-gRPC_URL = 'rnis-tm.t1-group.ru:18082'
+import dotenv
+# dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+# dotenv.load_dotenv(dotenv_path)
+# gRPC_URL = os.environ['gRPC_URL']
+# gRPC_URL = 'rnis-tm.t1-group.ru:18082'
 
 # 1) Инициализировать локальную БД
 def int_local_db():
@@ -64,7 +67,7 @@ def get_vehicles_dic():
     return vehicles
 
 
-def get_t_by_device(idDev):
+def get_t_by_device(idDev,gRPC_URL):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
     sql = "SELECT vehicles.uuid,\
@@ -90,8 +93,8 @@ def get_t_by_device(idDev):
         'typets': response[0][2],
         'gosnumber': response[0][3],
         'vin': response[0][4],
-        'lat': get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][3],
-        'lon': get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][4],
+        'lat': get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0][3],
+        'lon': get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0][4],
         'speed': get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][6],
         'angle' : get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][5],
         'date' : datetime.datetime.fromtimestamp(get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1]).strftime('%Y-%m-%d %H:%M:%S'),
@@ -102,11 +105,11 @@ def get_t_by_device(idDev):
     })
 
     return tmessage
+# print(get_t_by_device('863591024988663',gRPC_URL))
 
 
 
-
-def get_t_by_org(idOrg):
+def get_t_by_org(idOrg,gRPC_URL):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
     tmessages = []
