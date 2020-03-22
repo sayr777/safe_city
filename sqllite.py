@@ -87,25 +87,38 @@ def get_t_by_device(idDev,gRPC_URL):
     cursor.execute(sql, [(idDev)])
     response = cursor.fetchall()
 
+    try:
+        grpc_message = get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0]
+    except:
+        grpc_message = ['', '', '', '', '','','']
+
+    try:
+        date_time = datetime.datetime.fromtimestamp(get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1]).strftime('%Y-%m-%d %H:%M:%S')
+
+    except:
+
+        date_time = ''
+
     tmessage = ({
         'id': response[0][0],
         'idDev': response[0][1],
         'typets': response[0][2],
         'gosnumber': response[0][3],
         'vin': response[0][4],
-        'lat': get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0][3],
-        'lon': get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0][4],
-        'speed': get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][6],
-        'angle' : get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][5],
-        'date' : datetime.datetime.fromtimestamp(get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1]).strftime('%Y-%m-%d %H:%M:%S'),
-        'time' : get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1],
+        'lat': grpc_message[3],
+        'lon': grpc_message[4],
+        'speed': grpc_message[6],
+        'angle' : grpc_message[5],
+        'date' : date_time,
+        'time' : grpc_message[1],
         'org_id': response[0][5],
         'org_name': response[0][7],
         'org_inn': response[0][6]
     })
 
+
     return tmessage
-# print(get_t_by_device('863591024988663',gRPC_URL))
+# print(get_t_by_device('255157866',gRPC_URL))
 
 
 
@@ -141,7 +154,7 @@ def get_t_by_org(idOrg,gRPC_URL):
 
         except:
 
-            date_time : ''
+            date_time = ''
 
 
         tmessages.append({

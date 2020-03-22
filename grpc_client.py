@@ -3,7 +3,6 @@ import API_pb2
 import API_pb2_grpc
 import datetime
 
-
 # ------------------------------------------------------
 # get the latest telematics messages for the BNSO list
 # gRPC_URL - address and port of the RNIS grpc server
@@ -48,7 +47,6 @@ def get_grpc_states_from_devices(gRPC_URL, DEVICES):
              point.Data[0].Position.Speed \
              ])
     return telematic_message_list
-
 
 
 # ------------------------------------------------------
