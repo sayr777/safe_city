@@ -47,7 +47,10 @@ def get_grpc_states_from_devices(gRPC_URL, DEVICES):
              point.Data[0].Position.Speed \
              ])
     return telematic_message_list
-
+# gRPC_URL = '10.10.21.22:5587'
+# DEVICES = ['39815425']
+#
+# print(get_grpc_states_from_devices(gRPC_URL,DEVICES))
 
 # ------------------------------------------------------
 # get the latest telematics messages for the state number list

@@ -68,6 +68,7 @@ def get_vehicles_dic():
 
 
 def get_t_by_device(idDev,gRPC_URL):
+    print(idDev)
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
     sql = "SELECT vehicles.uuid,\
@@ -84,10 +85,11 @@ def get_t_by_device(idDev,gRPC_URL):
     LEFT JOIN organization ON vehicles.unit_uuid = organization.uuid\
     WHERE bnso_number = ?"
 
-    cursor.execute(sql, [(idDev)])
+    cursor.execute(sql,[idDev])
     response = cursor.fetchall()
 
     try:
+
         grpc_message = get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0]
     except:
         grpc_message = ['', '', '', '', '','','']
@@ -98,7 +100,7 @@ def get_t_by_device(idDev,gRPC_URL):
     except:
 
         date_time = ''
-
+    print(grpc_message)
     tmessage = ({
         'id': response[0][0],
         'idDev': response[0][1],
@@ -119,8 +121,9 @@ def get_t_by_device(idDev,gRPC_URL):
 
     return tmessage
 # print(get_t_by_device('255157866',gRPC_URL))
-
-
+# gRPC_URL = '10.10.21.22:5587'
+# idDev = '39815425'
+# print(get_t_by_device(idDev,gRPC_URL))
 
 def get_t_by_org(idOrg,gRPC_URL):
     conn = sqlite3.connect(db)

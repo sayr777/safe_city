@@ -6,7 +6,8 @@ RUN pip install grpcio==${GRPC_PYTHON_VERSION} grpcio-tools==${GRPC_PYTHON_VERSI
 RUN mkdir /code
 COPY . /code
 WORKDIR /code
-
+ENV gRPC_URL = '10.10.21.22:5587'
+ENV pSQL_URL = 'postgresql://postgres@10.10.21.25:5432/'
 RUN pip install -r requirements.txt
 RUN chmod +x ./run.sh
 EXPOSE 8000
