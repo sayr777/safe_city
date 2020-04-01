@@ -7,9 +7,9 @@ from sqllite import get_t_by_device
 from sqllite import get_t_by_org
 app = Flask(__name__)
 
-# import dotenv
-# dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-# dotenv.load_dotenv(dotenv_path)
+import dotenv
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+dotenv.load_dotenv(dotenv_path)
 
 
 # DEBUG_METRICS = os.environ['DEBUG_METRICS']
