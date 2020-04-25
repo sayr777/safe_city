@@ -11,10 +11,11 @@ import dotenv
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 dotenv.load_dotenv(dotenv_path)
 
-
 # DEBUG_METRICS = os.environ['DEBUG_METRICS']
+PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
+
 from prometheus_flask_exporter import PrometheusMetrics
-metrics = PrometheusMetrics(app=None, path='/metrics')
+metrics = PrometheusMetrics(app=None, path='/')
 
 
 gRPC_URL = os.environ['gRPC_URL']
@@ -25,7 +26,7 @@ print(" * pSQL_URL: %s" % pSQL_URL)
 
 
 
-@app.route('/')
+@app.route('/info')
 def hello():
     return 'API интеграциии РНИС Нижегородской области с АПК "Безопасный город"'
 
@@ -55,5 +56,4 @@ def get_telematics_by_org(idOrg):
 
 if __name__ == '__main__':
     metrics.init_app(app)
-    app.run(debug=True, host='0.0.0.0', port=8000)
-
+    app.run(debug=True, host='0.0.0.0', port=8891)
