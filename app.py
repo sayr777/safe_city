@@ -15,7 +15,7 @@ dotenv.load_dotenv(dotenv_path)
 PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
 
 from prometheus_flask_exporter import PrometheusMetrics
-metrics = PrometheusMetrics(app=None, path='/')
+metrics = PrometheusMetrics(app=None, path='/metrics')
 
 
 gRPC_URL = os.environ['gRPC_URL']
