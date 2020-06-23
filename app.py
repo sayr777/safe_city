@@ -13,7 +13,6 @@ dotenv.load_dotenv(dotenv_path)
 
 # DEBUG_METRICS = os.environ['DEBUG_METRICS']
 PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
-TOKEN = os.environ['TOKEN']
 
 
 
