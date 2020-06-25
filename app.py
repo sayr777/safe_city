@@ -14,8 +14,6 @@ dotenv.load_dotenv(dotenv_path)
 # DEBUG_METRICS = os.environ['DEBUG_METRICS']
 PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
 
-
-
 from prometheus_flask_exporter import PrometheusMetrics
 metrics = PrometheusMetrics(app=None, path='/metrics')
 
@@ -49,8 +47,7 @@ def update_dics(token):
 @app.route('/v.1/vehicles_dic/<path:token>', methods=['GET'])
 def get_vehicles(token):
     if token == API_TOKEN:
-        response = json.dumps(get_vehicles_dic())
-        return
+        return json.dumps(get_vehicles_dic())
     else :
         return '[{"error":"7"},\n {"info": "Предоставлен некорректный ключ"}]'
 
