@@ -3,6 +3,7 @@ import sqlite3
 from grpc_client import get_grpc_states_from_devices
 import os
 import datetime
+import json
 import dotenv
 # dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 # dotenv.load_dotenv(dotenv_path)
@@ -68,7 +69,7 @@ def get_vehicles_dic():
 
 
 def get_t_by_device(idDev,gRPC_URL):
-    print(idDev)
+    # print(idDev)
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
     sql = "SELECT vehicles.uuid,\
@@ -98,29 +99,58 @@ def get_t_by_device(idDev,gRPC_URL):
         date_time = datetime.datetime.fromtimestamp(get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1]).strftime('%Y-%m-%d %H:%M:%S')
 
     except:
+        date_time = None
+    # print(response)
+    id = response[0][0] if response !=[] else None
+    idDev = response[0][1] if response !=[] else None
+    try:
+        typets =  response[0][2] if response !='' else None
+    except:
+        typets = None
+    try:
+        gosnumber = response[0][3] if response !='' else None
+    except:
+        gosnumber = None
 
-        date_time = ''
-    print(grpc_message)
+    try:
+        vin = response[0][4] if response[0][4] !=''  else None
+    except:
+        vin = None
+
+    lat = grpc_message[3] if grpc_message[3] !='' else None
+    lon = grpc_message[4] if grpc_message[4] !='' else None
+    speed = grpc_message[6] if grpc_message[6] !='' else None
+    angle = grpc_message[5] if grpc_message[5] !='' else None
+    time_ = grpc_message[1] if grpc_message[1] !='' else None
+    org_id = response[0][5] if response !=[] else None
+    org_name = response[0][7] if response !=[] else None
+    try:
+        org_inn = response[0][6] if response[0][6] !='' else None
+    except:
+        org_inn = None
+
+
     tmessage = ({
-        'id': response[0][0],
-        'idDev': response[0][1],
-        'typets': response[0][2],
-        'gosnumber': response[0][3],
-        'vin': response[0][4],
-        'lat': grpc_message[3],
-        'lon': grpc_message[4],
-        'speed': grpc_message[6],
-        'angle' : grpc_message[5],
+        'id': id,
+        'idDev': idDev,
+        'typets': typets,
+        'gosnumber': gosnumber,
+        'vin': vin,
+        'lat': lat,
+        'lon': lon,
+        'speed': speed,
+        'angle' : angle,
         'date' : date_time,
-        'time' : grpc_message[1],
-        'org_id': response[0][5],
-        'org_name': response[0][7],
-        'org_inn': response[0][6]
+        'time' : time_,
+        'org_id': org_id,
+        'org_name': org_name,
+        'org_inn': org_inn
     })
 
-
     return tmessage
-# print(get_t_by_device('255157866',gRPC_URL))
+
+# gRPC_URL = '10.10.21.22:5587'
+# print(get_t_by_device('39815425',gRPC_URL))
 # gRPC_URL = '10.10.21.22:5587'
 # idDev = '39815425'
 # print(get_t_by_device(idDev,gRPC_URL))
@@ -160,23 +190,107 @@ def get_t_by_org(idOrg,gRPC_URL):
             date_time = ''
 
 
+        vin = row[4] if row[4] != '' else None
+        lat = grpc_message[3] if grpc_message[3] !='' else None
+        lon = grpc_message[4] if grpc_message[4] !='' else None
+        speed = grpc_message[6] if grpc_message[6] !='' else None
+        angle = grpc_message[5] if grpc_message[5] !='' else None
+        date = date_time if date_time !='' else None
+        time = grpc_message[1] if grpc_message[1] !='' else None
+        org_id = row[5] if row[5] !='' else None
+        org_name = row[7] if row[7] !='' else None
+        org_inn = row[6] if row[6] !='' else None
+
+
         tmessages.append({
             'id': row[0],
             'idDev': row[1],
             'typets': row[2],
             'gosnumber': row[3],
-            'vin': row[4],
-            'lat': grpc_message[3],
-            'lon': grpc_message[4],
-            'speed': grpc_message[6],
-            'angle': grpc_message[5],
-            'date': date_time,
-            'time': grpc_message[1],
-            'org_id': row[5],
-            'org_name': row[7],
-            'org_inn': row[6]
-            })
+            'vin': vin,
+            'lat': lat,
+            'lon': lon,
+            'speed': speed,
+            'angle': angle,
+            'date': date,
+            'time': time,
+            'org_id': org_id,
+            'org_name': org_name,
+            'org_inn': org_inn
+        })
 
     return tmessages
 
-# print(get_t_by_org('3dc07dfa-b43f-11e9-8848-029975b11713'))
+
+
+def get_all_t (gRPC_URL):
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+    tmessages = []
+
+    sql = "SELECT vehicles.uuid, \
+        bnso.bnso_number, \
+        vehicle_types.name, \
+        vehicles.state_number, \
+        vehicles.vin, \
+        organization.uuid, \
+        organization.inn, \
+        organization.name_full \
+        FROM vehicles\
+    LEFT JOIN vehicle_types ON vehicles.vehicle_type_uuid = vehicle_types.uuid\
+    LEFT JOIN bnso2vehicles ON vehicles.current_bnso_uuid = bnso2vehicles.bnso_uuid\
+    LEFT JOIN bnso ON bnso2vehicles.bnso_uuid = bnso.uuid\
+    LEFT JOIN organization ON vehicles.unit_uuid = organization.uuid"
+
+    t_message = cursor.execute(sql)
+
+    for row in t_message:
+
+        try:
+            grpc_message = get_grpc_states_from_devices(gRPC_URL, [row[1]])[0]
+        except:
+            grpc_message = ['', '', '', '', '','','']
+
+        try:
+            date_time = datetime.datetime.fromtimestamp(grpc_message[1]).strftime('%Y-%m-%d %H:%M:%S')
+
+        except:
+
+            date_time = ''
+
+
+        vin = row[4] if row[4] != '' else None
+        lat = grpc_message[3] if grpc_message[3] !='' else None
+        lon = grpc_message[4] if grpc_message[4] !='' else None
+        speed = grpc_message[6] if grpc_message[6] !='' else None
+        angle = grpc_message[5] if grpc_message[5] !='' else None
+        date = date_time if date_time !='' else None
+        time = grpc_message[1] if grpc_message[1] !='' else None
+        org_id = row[5] if row[5] !='' else None
+        org_name = row[7] if row[7] !='' else None
+        org_inn = row[6] if row[6] !='' else None
+
+
+        tmessages.append({
+            'id': row[0],
+            'idDev': row[1],
+            'typets': row[2],
+            'gosnumber': row[3],
+            'vin': vin,
+            'lat': lat,
+            'lon': lon,
+            'speed': speed,
+            'angle': angle,
+            'date': date,
+            'time': time,
+            'org_id': org_id,
+            'org_name': org_name,
+            'org_inn': org_inn
+        })
+
+    return tmessages
+
+# gRPC_URL = '10.10.21.22:5587'
+# print(get_t_by_org('3dc07dfa-b43f-11e9-8848-029975b11713',gRPC_URL))
+# gRPC_URL = '10.10.21.22:5587'
+# print(get_all_t(gRPC_URL))

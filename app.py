@@ -5,6 +5,7 @@ from flask import Flask
 from sqllite import get_vehicles_dic
 from sqllite import get_t_by_device
 from sqllite import get_t_by_org
+from sqllite import get_all_t
 app = Flask(__name__)
 
 import dotenv
@@ -68,6 +69,15 @@ def get_telematics_by_org(idOrg,token):
         abort(404)
     if token == API_TOKEN:
         return json.dumps(get_t_by_org(idOrg,gRPC_URL))
+    else :
+        return '[{"error":"7"},\n {"info": "Предоставлен некорректный ключ"}]'
+
+#Метод получения телематических сообщений по uuid предприятия
+@app.route('/v.1/messages/all/<path:token>', methods=['GET'])
+def get_telematics_all(token):
+
+    if token == API_TOKEN:
+        return json.dumps(get_all_t(gRPC_URL))
     else :
         return '[{"error":"7"},\n {"info": "Предоставлен некорректный ключ"}]'
 
