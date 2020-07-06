@@ -37,7 +37,7 @@ def hello(token):
         # return 'ok'
         return flask.Response(
             status=0,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response="{'info': 'API интеграциии РНИС Нижегородской области с АПК Безопасный город'}")
     else:
         return '[{"error":"7"},\n {"info": "Предоставлен некорректный ключ"}]'
@@ -48,7 +48,10 @@ def update_dics(token):
     if token == API_TOKEN:
         return 'Ок'
     else :
-        return '[{"error":"7"},\n {"info": "Предоставлен некорректный ключ"}]'
+        return flask.Response(
+            status=7,
+            mimetype=("application/json; charset=utf-8"),
+            response="{\"info\": \"Предоставлен некорректный ключ\"}")
 
 #Метод получения словаря ТС
 @app.route('/v.1/vehicles_dic/<path:token>', methods=['GET'])
@@ -56,12 +59,12 @@ def get_vehicles(token):
     if token == API_TOKEN:
         return flask.Response(
             status=0,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response=json.dumps(get_vehicles_dic()))
     else :
         return flask.Response(
             status=7,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response="{\"info\": \"Предоставлен некорректный ключ\"}")
 
 
@@ -73,14 +76,14 @@ def get_telematics_by_device(idDev,token):
     if token == API_TOKEN:
         return flask.Response(
             status=0,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response=json.dumps(get_t_by_device(idDev,gRPC_URL)))
 
 
     else :
         return flask.Response(
             status=7,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response="{\"info\": \"Предоставлен некорректный ключ\"}")
 
 #Метод получения телематических сообщений по uuid предприятия
@@ -91,13 +94,13 @@ def get_telematics_by_org(idOrg,token):
     if token == API_TOKEN:
         return flask.Response(
             status=0,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response=json.dumps(get_t_by_org(idOrg,gRPC_URL)))
 
     else :
         return flask.Response(
             status=7,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response="{\"info\": \"Предоставлен некорректный ключ\"}")
 
 #Метод получения телематических сообщений по uuid предприятия
@@ -107,13 +110,13 @@ def get_telematics_all(token):
     if token == API_TOKEN:
         return flask.Response(
             status=0,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response=json.dumps(get_all_t(gRPC_URL)))
 
     else :
         return flask.Response(
             status=7,
-            mimetype="application/json",
+            mimetype=("application/json; charset=utf-8"),
             response="{\"info\": \"Предоставлен некорректный ключ\"}")
 
 
