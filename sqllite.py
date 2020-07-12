@@ -34,7 +34,7 @@ def insert_in_db (db,dataset,sql_request):
 # Пример запроса
 db = 'vehicles.db'
 
-def get_vehicles_dic():
+def get_vehicles_dic(db):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
     vehicles = []
@@ -49,24 +49,40 @@ def get_vehicles_dic():
     LEFT JOIN bnso ON bnso2vehicles.bnso_uuid = bnso.uuid\
     LEFT JOIN organization ON vehicles.unit_uuid = organization.uuid'
 
+
     for row in cursor.execute(sql):
+        id =  row[0]
+        idDev =  row[7]
+        name  =  row[7]
+        groupname =  row[11]
+        createts  =  row[3][:4] if len(row[3])>3 else None
+        markats = str(row[5] if row[5] is not None else '') + " " + str(row[6] if row[6] is not None else '')
+        if markats is ' ': markats = None
+        typets =  row[2]
+        gosnumber = row[1] if len(row[1]) > 4 else None
+        vin = row[4] if len(row[4])>4 else None
+        org_id = row[8] if len(row[8])>4 else None
+        org_name = row[10] if len(row[10])>4 else None
+        org_inn = row[9] if len(row[9])>4 else None
+
+         # Response structure
         vehicles.append({
-            'id': row[0],
-            'idDev' : row[7],
-            'name' : row[7],
-            'groupname': row[11],
-            'createts' : row[3],
-            'markats' : (str(row[5]) + " " + str(row[6])),
-            'typets': row[2],
-            'gosnumber' : row[1],
-            'vin' : row[4],
-            'org_id' : row[8],
-            'org_name' : row[10],
-            'org_inn' : row[9]
+            'id': id,
+            'idDev' : idDev,
+            'name' : name,
+            'groupname': groupname,
+            'createts' : createts,
+            'markats' : markats,
+            'typets': typets,
+            'gosnumber' : gosnumber,
+            'vin' : vin,
+            'org_id' : org_id,
+            'org_name' : org_name,
+            'org_inn' : org_inn
         })
 
     return vehicles
-
+# print(get_vehicles_dic(db))
 
 def get_t_by_device(idDev,gRPC_URL):
     # print(idDev)
@@ -90,17 +106,13 @@ def get_t_by_device(idDev,gRPC_URL):
     response = cursor.fetchall()
 
     try:
-
         grpc_message = get_grpc_states_from_devices(gRPC_URL,[response[0][1]])[0]
     except:
         grpc_message = ['', '', '', '', '','','']
-
     try:
         date_time = datetime.datetime.fromtimestamp(get_grpc_states_from_devices(gRPC_URL, [response[0][1]])[0][1]).strftime('%Y-%m-%d %H:%M:%S')
-
     except:
         date_time = None
-    # print(response)
     id = response[0][0] if response !=[] else None
     idDev = response[0][1] if response !=[] else None
     try:
@@ -113,7 +125,7 @@ def get_t_by_device(idDev,gRPC_URL):
         gosnumber = None
 
     try:
-        vin = response[0][4] if response[0][4] !=''  else None
+        vin = response[0][4] if len(response[0][4]) > 4 else None
     except:
         vin = None
 
@@ -125,7 +137,7 @@ def get_t_by_device(idDev,gRPC_URL):
     org_id = response[0][5] if response !=[] else None
     org_name = response[0][7] if response !=[] else None
     try:
-        org_inn = response[0][6] if response[0][6] !='' else None
+        org_inn = response[0][6] if len(response[0][6]) > 4 else None
     except:
         org_inn = None
 
@@ -190,7 +202,7 @@ def get_t_by_org(idOrg,gRPC_URL):
             date_time = ''
 
 
-        vin = row[4] if row[4] != '' else None
+        vin = row[4] if len(row[4])> 4 else None
         lat = grpc_message[3] if grpc_message[3] !='' else None
         lon = grpc_message[4] if grpc_message[4] !='' else None
         speed = grpc_message[6] if grpc_message[6] !='' else None
@@ -259,7 +271,7 @@ def get_all_t (gRPC_URL):
             date_time = ''
 
 
-        vin = row[4] if row[4] != '' else None
+        vin = row[4] if len(row[4])>4 else None
         lat = grpc_message[3] if grpc_message[3] !='' else None
         lon = grpc_message[4] if grpc_message[4] !='' else None
         speed = grpc_message[6] if grpc_message[6] !='' else None
@@ -268,7 +280,7 @@ def get_all_t (gRPC_URL):
         time = grpc_message[1] if grpc_message[1] !='' else None
         org_id = row[5] if row[5] !='' else None
         org_name = row[7] if row[7] !='' else None
-        org_inn = row[6] if row[6] !='' else None
+        org_inn = row[6] if len(row[6])>4 else None
 
 
         tmessages.append({
