@@ -14,9 +14,10 @@ def get_grpc_states_from_devices(gRPC_URL, DEVICES):
     # open a gRPC channel
     try:
         channel = grpc.insecure_channel(gRPC_URL)
-    except:
-        print('Channel opening error')
+    except Exception as exp:
+        print(str(exp))
         return []
+
     # close a gRPC channel
     channel.close
     # create a stub (client)
@@ -26,11 +27,14 @@ def get_grpc_states_from_devices(gRPC_URL, DEVICES):
         (Filter=API_pb2.DataFilter(DeviceCode=DEVICES), \
          Fields=API_pb2.FieldsToggle(Position=True, Ignition=True, Motohours=True, \
                                      Mileage=True, Moving=True, Ports=True, Address=True))
+
+    # close a gRPC channel
+    # channel.close
     # make the call
     try:
         result = client.GetObjectsState(request)
-    except:
-        print('Error getting data')
+    except Exception as exp:
+        print(str(exp))
         return []
 
     # print result
@@ -75,7 +79,10 @@ def get_grpc_states_from_state_numbers(gRPC_URL, NUMBERS):
         (Filter=API_pb2.DataFilter(StateNumber=NUMBERS), \
          Fields=API_pb2.FieldsToggle(Position=True, Ignition=True, Motohours=True, \
                                      Mileage=True, Moving=True, Ports=True, Address=True))
-    # make the call
+
+
+    # close a gRPC channel
+    # channel.close
     try:
         result = client.GetObjectsState(request)
     except:

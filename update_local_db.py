@@ -1,10 +1,18 @@
+import os
+import dotenv
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+dotenv.load_dotenv(dotenv_path)
 import sqlite3
 import pandas as pd
 from sqlalchemy import create_engine
 import time
 # con = sqlite3.connect(":memory:")
+# Переменная хранящая данные о локальной БД
 lite_db = "vehicles.db"
-connecting_string = "postgresql://postgres@10.10.21.25:5432/"
+ # Получение переменной, хранящей конекшстринг БДРНИС МО
+connecting_string = os.environ['pSQL_URL']
+
+# connecting_string = "postgresql://postgres@10.10.21.25:5432/"
 
 # Удалить локальную БД
 def delete_db (lite_db):
@@ -40,9 +48,15 @@ def update_organization(lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE organization")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE organization(uuid TEXT,name_full TEXT,inn TEXT)")
-    organizations.astype(str).to_sql('organization', con=cnx, index= False, if_exists='append')
+    try:
+        organizations.astype(str).to_sql('organization', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
+
     return str(len(organizations))
 
 # print(update_organization(lite_db, connecting_string))
@@ -53,16 +67,23 @@ def update_vehicle_types(lite_db, connecting_string):
     sql_query = 'SELECT uuid, name FROM public.vehicle_types WHERE deleted_at is NULL'
     vehicle_types = pd.read_sql_query(sql_query,con=engine)
     print('Получено из PGSQL: ' + str(len(vehicle_types)) + ' типов ТС')
-    cnx = sqlite3.connect(lite_db)
+    try:
+        cnx = sqlite3.connect(lite_db)
+    except Exception as exp:
+        print(str(exp))
+        return None
+
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE vehicle_types")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE vehicle_types(uuid TEXT,name TEXT)")
-    vehicle_types.astype(str).to_sql('vehicle_types', con=cnx, index= False, if_exists='append')
-    return str(len(vehicle_types))
-
-# print(update_vehicle_types(lite_db, connecting_string))
+    try:
+        vehicle_types.astype(str).to_sql('vehicle_types', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
 
 # Обновить таблицу bnso
 def update_bnso(lite_db, connecting_string):
@@ -74,11 +95,16 @@ def update_bnso(lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE bnso")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE bnso(uuid TEXT,bnso_number TEXT)")
-    bnso.astype(str).to_sql('bnso', con=cnx, index= False, if_exists='append')
+    try:
+        bnso.astype(str).to_sql('bnso', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
     return str(len(bnso))
-# print(update_bnso(lite_db, connecting_string))
+
 
 # Обновить таблицу модели ТС
 def update_vehicle_models(lite_db, connecting_string):
@@ -90,11 +116,15 @@ def update_vehicle_models(lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE vehicle_models")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE vehicle_models(uuid TEXT,name TEXT)")
-    vehicle_models.astype(str).to_sql('vehicle_models', con=cnx, index= False, if_exists='append')
+    try:
+        vehicle_models.astype(str).to_sql('vehicle_models', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
     return str(len(vehicle_models))
-# print(update_vehicle_models(lite_db, connecting_string))
 
 # Обновить таблицу марки ТС
 def update_vehicle_marks (lite_db, connecting_string):
@@ -106,11 +136,15 @@ def update_vehicle_marks (lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE vehicle_marks")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE vehicle_marks(uuid TEXT,name TEXT)")
-    vehicle_marks.astype(str).to_sql('vehicle_marks', con=cnx, index= False, if_exists='append')
+    try:
+        vehicle_marks.astype(str).to_sql('vehicle_marks', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
     return str(len(vehicle_marks))
-# print(update_vehicle_marks(lite_db, connecting_string))
 
 # Обновить таблицу БНСО-ТС
 def update_bnso2vehicles (lite_db, connecting_string):
@@ -122,11 +156,16 @@ def update_bnso2vehicles (lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE bnso2vehicles")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE bnso2vehicles(bnso_uuid TEXT,vehicle_uuid TEXT)")
-    bnso2vehicles.astype(str).to_sql('bnso2vehicles', con=cnx, index= False, if_exists='append')
+    try:
+        bnso2vehicles.astype(str).to_sql('bnso2vehicles', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
+
     return str(len(bnso2vehicles))
-# print(update_bnso2vehicles(lite_db, connecting_string))
 
 # Обновить таблицу ТС
 def update_vehicles(lite_db, connecting_string):
@@ -152,15 +191,20 @@ def update_vehicles(lite_db, connecting_string):
     cur = cnx.cursor()
     try:
         cur.execute("DROP TABLE vehicles")
-    except:
+    except Exception as exp:
+        print(str(exp))
         cur.execute("CREATE TABLE vehicles(uuid TEXT,state_number TEXT,\
     vehicle_type_uuid TEXT,release_year INTEGER,vin TEXT,\
     vehicle_mark_uuid TEXT,current_bnso_uuid TEXT,unit_uuid TEXT,\
     component TEXT,vehicle_model_uuid TEXT,idle_time INTEGER,status_change_time TEXT,\
     paid TEXT,vehicle_capacity_integer TEXT)")
-    vehicles.astype(str).to_sql('vehicles', con=cnx, index= False, if_exists='append')
+    try:
+        vehicles.astype(str).to_sql('vehicles', con=cnx, index= False, if_exists='append')
+    except Exception as exp:
+        print(str(exp))
+        return None
     return str(len(vehicles))
-# print(update_vehicles(lite_db, connecting_string))
+
 
 
 

@@ -6,8 +6,13 @@ EXPOSE 8000 8891 9001
 RUN mkdir /code
 COPY . /code
 WORKDIR /code
-ENV gRPC_URL = '10.10.21.22:5587'
-ENV pSQL_URL = 'postgresql://postgres@10.10.21.25:5432/'
+
+ENV pSQL_URL='postgresql://postgres@10.10.21.25:5432/'
+ENV API_TOKEN='8d6fbe03e99f4b13966e622981c9a11f'
+ENV gRPC_URL='10.10.21.22:5587'
+ENV PROMETHEUS_PORT='8891'
+ENV FUNC_PORT='8000'
+ENV PGSQL_PERIOD='20'
 
 RUN pip install -r requirements.txt
 RUN pip install python-dotenv

@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "984cfa9b-ba4c-43f8-878d-236c47c8f7f3",
+		"name": "safe city",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get vehicles_dic - получить реестр всех ТС",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}/v.1/vehicles_dic/{{token_bg}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"v.1",
+						"vehicles_dic",
+						"{{token_bg}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update dictionary - обновить справочники кэша",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}/v.1/update_dics/{{token_bg}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"v.1",
+						"update_dics",
+						"{{token_bg}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get messages/idDev - получить телематику по OID  БНСО",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}/v.1/messages/idDev:27128390/{{token_bg}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"v.1",
+						"messages",
+						"idDev:27128390",
+						"{{token_bg}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get messages/idOrg - получить телематику по  UID  предприятия",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}/v.1/messages/idOrg:3dc07dfa-b43f-11e9-8848-029975b11713/{{token_bg}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"v.1",
+						"messages",
+						"idOrg:3dc07dfa-b43f-11e9-8848-029975b11713",
+						"{{token_bg}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get messages/all - получить телематику по всем устройствам",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}/v.1/messages/all/{{token_bg}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"v.1",
+						"messages",
+						"all",
+						"{{token_bg}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
