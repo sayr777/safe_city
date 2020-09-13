@@ -3,8 +3,8 @@ import select
 import time
 import sys
 import os
-
 import dotenv
+
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 dotenv.load_dotenv(dotenv_path)
 PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
@@ -12,7 +12,10 @@ FUNC_PORT = os.environ['FUNC_PORT']
 
 buffer_size = 4096
 delay = 0.0001
-forward_to = ('127.0.0.1', 8891)
+try:
+    forward_to = ('127.0.0.1', int(PROMETHEUS_PORT))
+except Exception as exp:
+    print(str(exp))
 
 class Forward:
     def __init__(self):

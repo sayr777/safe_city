@@ -1,0 +1,16 @@
+AUTHORS.rst
+CHANGELOG.rst
+COPYING
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+agate_sql.egg-info/PKG-INFO
+agate_sql.egg-info/SOURCES.txt
+agate_sql.egg-info/dependency_links.txt
+agate_sql.egg-info/requires.txt
+agate_sql.egg-info/top_level.txt
+agatesql/__init__.py
+agatesql/table.py
+tests/__init__.py
+tests/test_agatesql.py

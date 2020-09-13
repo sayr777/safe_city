@@ -2,7 +2,7 @@ import os
 import gc
 import json
 import flask
-import schedule
+# import schedule
 from flask import abort
 from flask import Flask
 from sqllite import get_vehicles_dic
@@ -26,7 +26,6 @@ dotenv.load_dotenv(dotenv_path)
 # DEBUG_METRICS = os.environ['DEBUG_METRICS']
 # Порт метрик Прометеуса
 PROMETHEUS_PORT = os.environ['PROMETHEUS_PORT']
-# DEBUG_METRICS = os.environ['DEBUG_METRICS']
 
 
 from prometheus_flask_exporter import PrometheusMetrics
@@ -74,7 +73,7 @@ def update_dics(token):
         response_['обновлено марок ТС'] = update_vehicle_marks (lite_db, pSQL_URL)
         response_['обновлено связок ТС-БНСО'] = update_bnso2vehicles (lite_db, pSQL_URL)
         response_['обновлено ТС'] = update_vehicles (lite_db, pSQL_URL)
-        print("Aleksey! See number of unreachable objects collected by GC:", gc.collect())
+        print('Aleksey! See number of unreachable objects collected by GC:', gc.collect())
         return response_
     else :
         return flask.Response(
@@ -85,6 +84,7 @@ def update_dics(token):
 #Метод получения словаря ТС
 @app.route('/v.1/vehicles_dic/<path:token>', methods=['GET'])
 def get_vehicles(token):
+    gc.collect()
     if token == API_TOKEN:
         return flask.Response(
             status=200,
@@ -147,10 +147,8 @@ def get_telematics_all(token):
             mimetype=("application/json; charset=utf-8"),
             response="'[{\"error\":\"7\"},\n {\"info\": \"Предоставлен некорректный ключ\"}]'")
 
-
-
 if __name__ == '__main__':
     metrics.init_app(app)
-    schedule.run_pending()
+    # schedule.run_pending()
     app.run(debug=True, host='0.0.0.0', port=8891)
 

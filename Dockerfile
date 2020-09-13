@@ -19,16 +19,3 @@ RUN pip install python-dotenv
 COPY supervisord.conf /etc/supervisor/conf.d/
 RUN cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime && echo "Europe/Moscow" > /etc/timezone
 CMD ["supervisord"]
-
-
-
-
-
-
-
-
-
-
-
-
-

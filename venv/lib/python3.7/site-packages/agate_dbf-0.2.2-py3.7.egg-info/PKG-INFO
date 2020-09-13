@@ -1,0 +1,56 @@
+Metadata-Version: 1.1
+Name: agate-dbf
+Version: 0.2.2
+Summary: agate-dbf adds read support for dbf files to agate.
+Home-page: http://agate-dbf.readthedocs.org/
+Author: Christopher Groskopf
+Author-email: chrisgroskopf@gmail.com
+License: MIT
+Description: .. image:: https://travis-ci.org/wireservice/agate-dbf.png
+            :target: https://travis-ci.org/wireservice/agate-dbf
+            :alt: Build status
+        
+        .. image:: https://img.shields.io/pypi/dw/agate-dbf.svg
+            :target: https://pypi.python.org/pypi/agate-dbf
+            :alt: PyPI downloads
+        
+        .. image:: https://img.shields.io/pypi/v/agate-dbf.svg
+            :target: https://pypi.python.org/pypi/agate-dbf
+            :alt: Version
+        
+        .. image:: https://img.shields.io/pypi/l/agate-dbf.svg
+            :target: https://pypi.python.org/pypi/agate-dbf
+            :alt: License
+        
+        .. image:: https://img.shields.io/pypi/pyversions/agate-dbf.svg
+            :target: https://pypi.python.org/pypi/agate-dbf
+            :alt: Support Python versions
+        
+        agate-dbf adds read support for dbf files to `agate <https://github.com/wireservice/agate>`_.
+        
+        Important links:
+        
+        * agate             http://agate.rtfd.org
+        * Documentation:    http://agate-dbf.rtfd.org
+        * Repository:       https://github.com/wireservice/agate-dbf
+        * Issues:           https://github.com/wireservice/agate-dbf/issues
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Multimedia :: Graphics
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

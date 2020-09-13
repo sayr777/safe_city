@@ -1,4 +1,5 @@
 import os
+import gc
 import time
 import datetime
 import dotenv
@@ -31,12 +32,9 @@ def run_update_local_db():
         update_vehicle_marks (LITE_DB, pSQL_URL)
         update_bnso2vehicles (LITE_DB, pSQL_URL)
         update_vehicles (LITE_DB, pSQL_URL)
+        gc.collect()
     except Exception as exp:
         print(str(exp))
-
-
-
-
 
 while True:
     run_update_local_db()

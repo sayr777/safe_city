@@ -1,0 +1,49 @@
+Metadata-Version: 1.1
+Name: agate-sql
+Version: 0.5.5
+Summary: agate-sql adds SQL read/write support to agate.
+Home-page: http://agate-sql.readthedocs.org/
+Author: Christopher Groskopf
+Author-email: chrisgroskopf@gmail.com
+License: MIT
+Description: .. image:: https://travis-ci.org/wireservice/agate-sql.png
+            :target: https://travis-ci.org/wireservice/agate-sql
+            :alt: Build status
+        
+        .. image:: https://img.shields.io/pypi/v/agate-sql.svg
+            :target: https://pypi.python.org/pypi/agate-sql
+            :alt: Version
+        
+        .. image:: https://img.shields.io/pypi/l/agate-sql.svg
+            :target: https://pypi.python.org/pypi/agate-sql
+            :alt: License
+        
+        .. image:: https://img.shields.io/pypi/pyversions/agate-sql.svg
+            :target: https://pypi.python.org/pypi/agate-sql
+            :alt: Support Python versions
+        
+        agate-sql adds SQL read/write support to `agate <https://github.com/wireservice/agate>`_.
+        
+        Important links:
+        
+        * agate             http://agate.rtfd.org
+        * Documentation:    http://agate-sql.rtfd.org
+        * Repository:       https://github.com/wireservice/agate-sql
+        * Issues:           https://github.com/wireservice/agate-sql/issues
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Multimedia :: Graphics
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

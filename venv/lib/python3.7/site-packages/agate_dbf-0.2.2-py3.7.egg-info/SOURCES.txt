@@ -1,0 +1,13 @@
+AUTHORS.rst
+COPYING
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+agate_dbf.egg-info/PKG-INFO
+agate_dbf.egg-info/SOURCES.txt
+agate_dbf.egg-info/dependency_links.txt
+agate_dbf.egg-info/requires.txt
+agate_dbf.egg-info/top_level.txt
+agatedbf/__init__.py
+agatedbf/table.py
